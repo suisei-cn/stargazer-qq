@@ -1,0 +1,3 @@
+httpx
+nonebot[scheduler]~=1.6.0
+websockets
