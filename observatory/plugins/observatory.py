@@ -117,19 +117,22 @@ async def worker(queue: Queue):
     logging.debug("worker up")
     while True:
         raw_event = await queue.get()
-        logging.info(f"got raw_event {raw_event}")
-        event = json.loads(raw_event)
-        logging.info(f"decoded into dict {event}")
-        topic = event["vtuber"]
-        event_type = event["type"]
-        msg = decode_event(event)
-        logging.info(f"decoded into msg {msg}")
-        msg_cq = build_message(msg)
-        logging.info(f"encoded into string {msg_cq}")
+        try:
+            logging.info(f"got raw_event {raw_event}")
+            event = json.loads(raw_event)
+            logging.info(f"decoded into dict {event}")
+            topic = event["vtuber"]
+            event_type = event["type"]
+            msg = decode_event(event)
+            logging.info(f"decoded into msg {msg}")
+            msg_cq = build_message(msg)
+            logging.info(f"encoded into string {msg_cq}")
 
-        if msg_cq:
-            logging.info(f"sending to dispatcher {topic} {event_type} {msg_cq}")
-            await dispatch(topic, event_type, msg_cq)
+            if msg_cq:
+                logging.info(f"sending to dispatcher {topic} {event_type} {msg_cq}")
+                await dispatch(topic, event_type, msg_cq)
+        except Exception:
+            logging.exception("Exception occur in worker.")
 
         queue.task_done()
 
@@ -137,10 +140,8 @@ async def worker(queue: Queue):
 @scheduler.scheduled_job(None)
 async def event_routine():
     task_queue = Queue()
-    tasks = []
     for i in range(WORKERS):
-        task = asyncio.create_task(worker(task_queue))
-        tasks.append(task)
+        asyncio.create_task(worker(task_queue))
 
     logging.debug("event loop up")
     while True:
