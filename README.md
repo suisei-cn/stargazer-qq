@@ -2,13 +2,17 @@
 
 ![Publish Docker](https://github.com/suisei-cn/stargazer-qq/workflows/Publish%20Docker/badge.svg)
 
+**Bot framework used by this project is taken down by Tencent, and so are all alternative QQ bot frameworks. This adapter will no longer be maintained.**
+
+> You may still use stargazer on another IM platform such as [Stargazer Telegram](https://github.com/suisei-cn/stargazer-telegram).
+
 Stargazer QQ is the qq frontend for [PyStargazer](https://github.com/suisei-cn/pystargazer)
 and Stargazer Subscriber Backend.
 
 It's one of all the stargazer bots, which allow users of different instant messaging apps
 to keep track of vtubers they like and support.
 
-QQ UserID: 2733773638
+QQ UserID: ~2733773638~ **banned**
 
 ## Related Projects
 
